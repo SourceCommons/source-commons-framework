@@ -6,7 +6,7 @@ This repository is the home of the framework itself. It stores the canonical CSV
 
 ## Purpose
 
-The framework helps teams describe sources in a way that is simple enough for CSV workflows and structured enough to connect with established metadata ecosystems.
+The framework helps teams describe sources in a way that is simple enough for CSV workflows and structured enough to connect with established metadata, knowledge graph, and code provenance ecosystems.
 
 It is designed for:
 
@@ -16,6 +16,8 @@ It is designed for:
 - Tools used to discover, clean, extract, validate, publish, or evaluate data.
 - Dated evaluations that separate evidence from opinion.
 - Use cases that explain how sources can be reused responsibly.
+- Wikidata identities and relationships that make sources easier to reconcile.
+- GitHub repositories, users, and organizations that support tool provenance and reproducible use cases.
 
 ## Repository Contents
 
@@ -35,6 +37,8 @@ Source Commons Framework uses existing standards where they fit:
 - DCAT for dataset and catalogue metadata.
 - DQV for data quality dimensions, metrics, and annotations.
 - Dublin Core Terms for titles, descriptions, publishers, identifiers, licences, spatial coverage, and temporal coverage.
+- Wikidata for shared entity identifiers, topics, and curated relationships.
+- GitHub REST API metadata for repositories, users, organizations, code provenance, and reproducibility links.
 - Hugging Face Hub metadata for AI models, datasets, Spaces, discussions, and repository provenance.
 
 Framework-specific fields extend these standards when practical reuse requires more detail, such as access cost, scraping position, join keys, legal risk, and workflow evidence.

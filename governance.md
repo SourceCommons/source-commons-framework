@@ -49,7 +49,17 @@ Level 3 records should receive the most detailed structured metadata when availa
 
 ### Standards-Compatible
 
-The framework should reuse existing standards before creating new fields. DCAT, DQV, and Dublin Core Terms are used as baseline vocabularies. Source Commons fields are extensions for operational details that those standards do not cover directly.
+The framework should reuse existing standards before creating new fields. DCAT, DQV, Dublin Core Terms, Wikidata, GitHub metadata, and Hugging Face metadata are used where they fit. Source Commons fields are extensions for operational details that those standards do not cover directly.
+
+### Curated External Integrations
+
+External identifiers should make records easier to verify, reconcile, reproduce, or maintain.
+
+Wikidata fields should use clear QIDs for primary entities, topics, and related entities. Advanced Wikidata relationships should rely on a curated property set and should not expose the full property universe to casual contributors.
+
+GitHub fields should point to the most relevant repository, user, or organization for a source, tool, or use case. They should support provenance, implementation, issue tracking, maintenance, or reproducibility, not promotion.
+
+Maintainers may reject external links that are ambiguous, unverifiable, promotional, stale, or only loosely related to the record.
 
 ### Quality Over Quantity
 
@@ -100,6 +110,7 @@ Pull requests should be reviewed for:
 - Licence and access clarity.
 - Duplicate or overlapping records.
 - Standards alignment.
+- Wikidata and GitHub identity accuracy when those fields are present.
 - Legal and ethical risk.
 - Practical usefulness.
 - Neutral wording.
