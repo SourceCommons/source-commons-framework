@@ -1,6 +1,6 @@
 # Governance
 
-Source Commons Framework is maintained as a public standard for documenting sources, tools, evaluations, and reuse cases.
+Source Commons Framework is maintained as a public standard for documenting sources, tools, evaluations, reusable skills, and reuse cases.
 
 The governance model is based on public review, clear evidence, traceable changes, and shared responsibility.
 
@@ -76,6 +76,12 @@ A record should explain how the source was accessed, when it was checked, what l
 
 Use cases should document source relationships, join strategies, tools, outputs, confidence, and legal limits.
 
+Skills should describe reusable capabilities, not one-off tasks. A skill can package a method, context file, promptable workflow, MCP server pattern, tool chain, or repeatable data operation.
+
+Every skill record should have one row in `data/skills.csv` and one Markdown file in `skills/{skill_id}.md`. The CSV row is the index; the Markdown file is the canonical readable description with generated YAML frontmatter.
+
+Skill reviewers should check that the title, summary, keywords, and solved problems are understandable without private context, and that references, tools, datasets, and related skills are factual rather than promotional.
+
 ### Neutrality and Conflicts of Interest
 
 The framework must remain neutral. Conflicts of interest should be disclosed when a contributor, maintainer, partner, vendor, or funder has a direct relationship with a source, tool, or use case.
@@ -107,7 +113,7 @@ Pull requests should be reviewed for:
 - Schema validity.
 - Evidence quality.
 - Licence and access clarity.
-- Duplicate or overlapping records.
+- Duplicate or overlapping records and skills.
 - Standards alignment.
 - Wikidata and GitHub identity accuracy when those fields are present.
 - Legal and ethical risk.

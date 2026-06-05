@@ -1,6 +1,6 @@
 # Source Commons Framework
 
-Source Commons Framework is an open, versioned framework for documenting data sources, data tools, source evaluations, and practical reuse cases.
+Source Commons Framework is an open, versioned framework for documenting data sources, data tools, source evaluations, reusable skills, and practical reuse cases.
 
 This repository is the home of the framework itself. It stores the canonical CSV schemas, the empty CSV files that future pull requests will update, and the written rules that explain how the standard is governed and maintained.
 
@@ -15,6 +15,7 @@ It is designed for:
 - Fragmented sources such as reports, PDFs, web pages, filings, decisions, and archives.
 - Tools used to discover, clean, extract, validate, publish, or evaluate data.
 - Dated evaluations that separate evidence from opinion.
+- Skills that package reusable methods, prompts, workflows, context files, and tool combinations.
 - Use cases that explain how sources can be reused responsibly.
 - Wikidata identities and relationships that make sources easier to reconcile.
 - GitHub repositories, users, and organizations that support tool provenance and reproducible use cases.
@@ -25,10 +26,12 @@ It is designed for:
 - `data/tools.csv`: tool records.
 - `data/evaluations.csv`: evaluation records.
 - `data/use-cases.csv`: reuse case records.
+- `data/skills.csv`: skill records.
+- `skills/`: Markdown skill files with generated YAML frontmatter.
 - `documentation.md`: field-level documentation for each CSV.
 - `governance.md`: governance principles and review rules.
 
-The CSV files are intentionally empty except for headers. Future pull requests can add proposed source records, tool records, evaluations, and use cases.
+The CSV files are intentionally empty except for headers. Future pull requests can add proposed source records, tool records, evaluations, skills, and use cases.
 
 ## Standards Alignment
 
