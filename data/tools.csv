@@ -1,1 +1,2 @@
 tool_id,dct_title,wikidata_id,tool_category,tool_homepage,open_source_license,input_formats,output_formats,source_levels_supported,typical_tasks,legal_use_guidance,legal_risk_level,recommended_controls,dct_conforms_to,github_resource_type,github_resource_id,github_url,github_api_url,github_metadata_status,hf_repo_type,hf_repo_id,hf_api_url,hf_task_or_sdk,hf_license,hf_last_modified,hf_metadata_status
+Test-1,Test tool,,Publishing,testurl.com,Test Licence,,,,Test desc,,Medium,,DCAT-3; SourceCommons-SCF-0.1,N/A,,,,Not checked,N/A,,,,,,Not checked
