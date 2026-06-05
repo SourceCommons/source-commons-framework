@@ -50,7 +50,7 @@ These values are Source Commons controlled values unless a field notes an extern
 
 | Field group | Allowed values |
 | --- | --- |
-| Source level | `L1_meta_list`, `L2_portal`, `L3_dataset`, `L4_fragmented_source` |
+| Source level | `L1_portal`, `L2_dataset`, `L3_fragmented_source` |
 | Risk level | `Low`, `Medium`, `High`, `Unknown` |
 | Confidence | `Low`, `Medium`, `High`, `Unknown` |
 | Metadata status | `Available`, `Partial`, `Not found`, `Not checked`, `N/A` |
@@ -76,10 +76,9 @@ These values are Source Commons controlled values unless a field notes an extern
 
 | Value | Meaning |
 | --- | --- |
-| `L1_meta_list` | A list, index, registry, or catalogue of sources. |
-| `L2_portal` | A portal or institutional access point that hosts multiple datasets or records. |
-| `L3_dataset` | A specific dataset with a stable access path. |
-| `L4_fragmented_source` | A source that requires extraction, parsing, reconciliation, or cross-referencing. |
+| `L1_portal` | A portal, catalogue, registry, or institutional access point that hosts multiple datasets or records. |
+| `L2_dataset` | A specific dataset, file collection, API, repository dataset, or stable data access path. |
+| `L3_fragmented_source` | A source that requires extraction, parsing, reconciliation, cross-referencing, or transformation before reuse. |
 
 ## DCAT Connections
 
@@ -121,11 +120,11 @@ These fields can point to models, datasets, Spaces, discussions, or workflow dep
 
 ## Required Fields
 
-Required fields are the minimum fields needed for a pull request to be reviewable. A required field can still contain `Unknown` or `Not checked` when the contributor explicitly documents uncertainty.
+Required fields are the minimum fields needed for a pull request to be reviewable. Operational details such as account requirements, authentication, rate limits, pricing, join keys, and legal notes are encouraged when known, but they are optional so public datasets can be submitted without unnecessary friction.
 
 | File | Required fields |
 | --- | --- |
-| `data/sources.csv` | `source_id`, `source_level`, `dct_title`, `dct_description`, `dct_publisher`, `dcat_landing_page`, `dct_access_rights`, `access_method`, `access_account_required`, `auth_method`, `rate_limit_declared`, `access_cost_type`, `pricing_model`, `join_key_types`, `join_key_granularity`, `legal_risk_level` |
+| `data/sources.csv` | `source_id`, `source_level`, `dct_title`, `dct_description`, `dct_publisher`, `dcat_landing_page`, `access_method` |
 | `data/tools.csv` | `tool_id`, `dct_title`, `tool_category`, `tool_homepage`, `open_source_license`, `typical_tasks`, `legal_risk_level` |
 | `data/evaluations.csv` | `evaluation_id`, `source_id`, `dqv_dimension`, `dqv_metric_uri`, `dqv_metric`, `dqv_expected_datatype`, `rating_1_5`, `confidence`, `evaluator_id` |
 | `data/use-cases.csv` | `use_case_id`, `dct_title`, `source_ids`, `sector`, `workflow_summary`, `tools_used`, `legal_aspects`, `impact`, `source_join_keys_used`, `join_strategy` |
@@ -135,7 +134,7 @@ Required fields are the minimum fields needed for a pull request to be reviewabl
 | Field | Required | Cardinality | Type or format | Values | Example | Notes |
 | --- | --- | --- | --- | --- | --- | --- |
 | `source_id` | Yes | Single | Identifier | Prefix `SRC-` | `SRC-CA-TORONTO-BUILDING-PERMITS` | Stable Source Commons source id. |
-| `source_level` | Yes | Single select | Controlled value | Source level values | `L3_dataset` | Use the most specific level that fits. |
+| `source_level` | Yes | Single select | Controlled value | Source level values | `L2_dataset` | Use `L1_portal` for catalogues, `L2_dataset` for stable datasets, and `L3_fragmented_source` when extraction or reconciliation is needed. |
 | `dct_title` | Yes | Single | Text | Source title | `Building Permits - Active Permits` | Maps to Dublin Core title. |
 | `dct_description` | Yes | Single | Text | Source description | `Information on currently active building applications and permits in Toronto.` | Keep concise and factual. |
 | `dct_publisher` | Yes | Single | Text or URI | Publisher name or identifier | `City of Toronto` | Maps to Dublin Core publisher. |
@@ -149,7 +148,7 @@ Required fields are the minimum fields needed for a pull request to be reviewabl
 | `dcat_endpoint_url` | No | Single | URL | API endpoint URL | `https://example.org/api/search` | Maps to DCAT endpoint URL for a data service. |
 | `dcat_prefill_url` | No | Single | URL | Portal metadata URL | `https://open.canada.ca/data/en/api/3/action/package_show?id=example` | The API or metadata record used to fill DCAT fields. |
 | `dcat_prefill_status` | No | Single select | Controlled value | Metadata status values | `Available` | Status of the portal metadata prefill. |
-| `dct_access_rights` | Yes | Single select or source text | Controlled value or official source label | Access rights values | `Public` | Maps to Dublin Core access rights. |
+| `dct_access_rights` | No | Single select or source text | Controlled value or official source label | Access rights values | `Public` | Maps to Dublin Core access rights. Public open data submissions may default to `Public`. |
 | `dct_license` | No | Single | Text or URL | License name, SPDX id, rights statement, or terms URL | `City of Toronto Open Data Licence` | Prefer official license URLs or SPDX ids when possible. |
 | `dct_spatial` | No | Single or multiple | Country, region, geometry, URI, or text | ISO 3166 codes preferred for countries and regions | `CA-ON` | Maps to Dublin Core spatial coverage. |
 | `dct_temporal` | No | Single | Temporal coverage | ISO 8601 date, year, interval, or source label | `2020-01-01/2025-12-31` | Maps to Dublin Core temporal coverage. |
@@ -159,15 +158,15 @@ Required fields are the minimum fields needed for a pull request to be reviewabl
 | `wikidata_related_entities` | No | Multiple | Wikidata item list | QIDs or labels with QIDs | `France Travail (Q124556307); Ministry of Labour (Q3406276)` | Organizations, places, people, products, laws, or other entities related to the source. |
 | `wikidata_advanced_relations` | No | Multiple | Wikidata advanced relation list | Curated property-value objects | `{"property":"P137","value":"Q95"}` | Advanced relationships such as operator, owner, publisher, funder, or covered area. |
 | `access_method` | Yes | Single or multiple | Text list | API, bulk download, file download, web page, repository files, request process, export | `Open data API; file download` | Practical access route for users. |
-| `access_account_required` | Yes | Single select | Boolean-like | `true`, `false`, `Unknown` | `false` | Whether account creation is required. |
-| `auth_method` | Yes | Single or multiple select | Controlled value list | Authentication method values | `None` | Use `None` when no authentication is required. |
-| `rate_limit_declared` | Yes | Single select | Boolean-like | `true`, `false`, `Unknown` | `Unknown` | Whether the source declares a rate limit. |
+| `access_account_required` | No | Single select | Boolean-like | `true`, `false`, `Unknown` | `false` | Whether account creation is required. Optional unless access requires an account. |
+| `auth_method` | No | Single or multiple select | Controlled value list | Authentication method values | `None` | Use `None` when no authentication is required. Optional for simple public downloads. |
+| `rate_limit_declared` | No | Single select | Boolean-like | `true`, `false`, `Unknown` | `Unknown` | Whether the source declares a rate limit. Optional unless the contributor knows the limit. |
 | `rate_limit_scope` | No | Single select | Controlled value | Rate limit scope values | `IP` | Required when a rate limit is known. |
 | `rate_limit_value` | No | Single | Number | Positive number | `10` | Numeric rate limit value. |
 | `rate_limit_period` | No | Single select | Controlled value | Rate limit period values | `second` | Period for `rate_limit_value`. |
 | `rate_limit_notes` | No | Single | Text | Notes | `Use conservative polling when no limit is published.` | Explain fair use or undocumented limits. |
-| `access_cost_type` | Yes | Single select | Controlled value | Access cost type values | `Free` | Broad access cost class. |
-| `pricing_model` | Yes | Single select | Controlled value | Pricing model values | `free_open_access` | Practical pricing model. |
+| `access_cost_type` | No | Single select | Controlled value | Access cost type values | `Free` | Broad access cost class. Public open data may default to `Free`. |
+| `pricing_model` | No | Single select | Controlled value | Pricing model values | `free_open_access` | Practical pricing model. Public open data may default to `free_open_access`. |
 | `pricing_currency` | No | Single | ISO 4217 code or `N/A` | Currency code | `USD` | Use only when pricing applies. |
 | `pricing_amount` | No | Single | Decimal number or `N/A` | Price amount | `0` | Use `N/A` when no price applies. |
 | `pricing_unit` | No | Single select or text | Pricing unit | `request`, `month`, `year`, `seat`, `dataset`, `download`, `N/A` | `month` | Unit attached to `pricing_amount`. |
@@ -178,14 +177,14 @@ Required fields are the minimum fields needed for a pull request to be reviewabl
 | `extraction_difficulty` | No | Single select | Controlled value | Extraction difficulty values | `Low` | Estimated effort to turn the source into usable data. |
 | `stable_identifiers` | No | Single or multiple | Text list | Identifier names | `permit_number; address` | Stable ids provided by the source. |
 | `join_keys` | No | Multiple | Text list | Field names | `permit_number; address; ward` | Concrete fields usable for joins. |
-| `legal_risk_level` | Yes | Single select | Controlled value | Risk level values | `Low` | Overall legal and ethical risk. |
+| `legal_risk_level` | No | Single select | Controlled value | Risk level values | `Low` | Overall legal and ethical risk. Recommended when legal or ethical reuse constraints are known. |
 | `legal_risk_notes` | No | Single | Text | Notes | `Open data license; geocoding and personal data minimization should be checked.` | Include license, terms, privacy, copyright, and redistribution issues. |
 | `scraping_position` | No | Single select | Controlled value | Scraping position values | `No scraping needed` | Prefer official APIs, exports, and bulk downloads. |
 | `documented_exception_cases` | No | Single | Text | Notes | `Use API rather than rendered pages.` | Known exceptions, limits, or safer access paths. |
 | `dct_conforms_to` | No | Multiple | Text or URI list | Standards and profiles | `DCAT-3; DQV; SourceCommons-ODSP-0.1` | Maps to Dublin Core conforms to. |
-| `join_key_types` | Yes | Multiple select | Controlled value list | `entity_id`, `entity_name`, `organization`, `person`, `geography`, `address`, `date`, `time`, `document_id`, `filing_id`, `topic`, `category`, `amount`, `version`, `other` | `address; geography; date` | Types of join keys. |
+| `join_key_types` | No | Multiple select | Controlled value list | `entity_id`, `entity_name`, `organization`, `person`, `geography`, `address`, `date`, `time`, `document_id`, `filing_id`, `topic`, `category`, `amount`, `version`, `other` | `address; geography; date` | Optional types of join keys when known. |
 | `join_key_examples` | No | Multiple | Text list | Examples | `permit_number=24 123456; ward=10` | Show realistic values. |
-| `join_key_granularity` | Yes | Single | Text | Granularity label | `Permit and parcel level` | Describe the row, entity, observation, document, or event level. |
+| `join_key_granularity` | No | Single | Text | Granularity label | `Permit and parcel level` | Optional description of the row, entity, observation, document, or event level. |
 | `join_key_confidence` | No | Single select | Controlled value | Confidence values | `High` | Confidence in joining this source to others. |
 | `crosswalk_source_ids` | No | Multiple | Identifier list | Source ids | `SRC-CA-HOC-HANSARD` | Other Source Commons sources that can be linked. |
 | `crosswalk_notes` | No | Single | Text | Notes | `Address and ward keys allow joins with planning sources.` | Include caveats and matching methods. |
@@ -211,7 +210,7 @@ Required fields are the minimum fields needed for a pull request to be reviewabl
 | `open_source_license` | Yes | Single | SPDX id, license name, access statement, or `Unknown` | License values | `MIT` | For closed or hosted tools, document access terms. |
 | `input_formats` | No | Multiple | Text list | Formats | `CSV; Excel; JSON` | Input formats the tool can process. |
 | `output_formats` | No | Multiple | Text list | Formats | `validated CSV; schema reports` | Output formats the tool can produce. |
-| `source_levels_supported` | No | Multiple select | Controlled value list | Source level values | `L3_dataset; L4_fragmented_source` | Source levels where the tool is useful. |
+| `source_levels_supported` | No | Multiple select | Controlled value list | Source level values | `L2_dataset; L3_fragmented_source` | Source levels where the tool is useful. |
 | `typical_tasks` | Yes | Single | Text | Task summary | `Validate CSV structure, infer schemas, create data packages.` | Keep operational and concrete. |
 | `legal_use_guidance` | No | Single | Text | Guidance | `Legal risk depends on the source being processed.` | Explain safe use boundaries. |
 | `legal_risk_level` | Yes | Single select | Controlled value | Risk level values | `Low` | Risk from typical use of the tool. |
@@ -293,7 +292,7 @@ The CSV files in this repository remain empty except for headers. This example s
 
 ```csv
 source_id,source_level,dct_title,dct_description,dct_publisher,dct_identifier,wikidata_id,dcat_landing_page,dcat_access_url,dcat_download_url,dcat_distribution_format,dcat_media_type,dcat_endpoint_url,dcat_prefill_url,dcat_prefill_status,dct_access_rights,dct_license,dct_spatial,dct_temporal,dcat_theme,dcat_keywords,wikidata_main_topics,wikidata_related_entities,wikidata_advanced_relations,access_method,access_account_required,auth_method,rate_limit_declared,rate_limit_scope,rate_limit_value,rate_limit_period,rate_limit_notes,access_cost_type,pricing_model,pricing_currency,pricing_amount,pricing_unit,pricing_notes,update_frequency,structuredness,fragmentation_level,extraction_difficulty,stable_identifiers,join_keys,legal_risk_level,legal_risk_notes,scraping_position,documented_exception_cases,dct_conforms_to,join_key_types,join_key_examples,join_key_granularity,join_key_confidence,crosswalk_source_ids,crosswalk_notes,github_resource_type,github_resource_id,github_url,github_api_url,github_metadata_status,hf_repo_type,hf_repo_id,hf_api_url,hf_metadata_status
-SRC-CA-TORONTO-BUILDING-PERMITS,L3_dataset,Building Permits - Active Permits,Information on currently active building applications and permits in Toronto.,City of Toronto,toronto-building-permits-active,,https://open.toronto.ca/dataset/building-permits-active-permits/,https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/package_show?id=building-permits-active-permits,,CSV; JSON; API,application/json,https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/package_show?id=building-permits-active-permits,https://open.toronto.ca/dataset/building-permits-active-permits/,Partial,Public,City of Toronto Open Data Licence,CA-ON,Current,Urban planning,building permits; development; construction; addresses,,,,Open data API; file download,false,None,Unknown,IP,,,No public limit found; check API behavior before monitoring.,Free,free_open_access,N/A,N/A,N/A,No fee declared for official API or downloads.,daily,Structured,Low,Low,Permit numbers and addresses,permit_number; address; ward; application_date,Low,Open data license; geocoding and personal data minimization should be checked.,No scraping needed,Use official open data API or downloads.,DCAT-3; DQV; SourceCommons-ODSP-0.1,address; geography; date,permit_number=24 123456; ward=10; application_date=2026-01-12,Permit and parcel level,High,N/A,Address and ward keys allow joins with planning and zoning sources.,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+SRC-CA-TORONTO-BUILDING-PERMITS,L2_dataset,Building Permits - Active Permits,Information on currently active building applications and permits in Toronto.,City of Toronto,toronto-building-permits-active,,https://open.toronto.ca/dataset/building-permits-active-permits/,https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/package_show?id=building-permits-active-permits,,CSV; JSON; API,application/json,https://ckan0.cf.opendata.inter.prod-toronto.ca/api/3/action/package_show?id=building-permits-active-permits,https://open.toronto.ca/dataset/building-permits-active-permits/,Partial,Public,City of Toronto Open Data Licence,CA-ON,Current,Urban planning,building permits; development; construction; addresses,,,,Open data API; file download,false,None,Unknown,IP,,,No public limit found; check API behavior before monitoring.,Free,free_open_access,N/A,N/A,N/A,No fee declared for official API or downloads.,daily,Structured,Low,Low,Permit numbers and addresses,permit_number; address; ward; application_date,Low,Open data license; geocoding and personal data minimization should be checked.,No scraping needed,Use official open data API or downloads.,DCAT-3; DQV; SourceCommons-ODSP-0.1,address; geography; date,permit_number=24 123456; ward=10; application_date=2026-01-12,Permit and parcel level,High,N/A,Address and ward keys allow joins with planning and zoning sources.,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 ```
 
 ## Identifier Rules

@@ -40,12 +40,11 @@ Evaluations must separate factual observations from interpretation. Claims about
 
 Every source should have a source level:
 
-- `L1_meta_list`: a list or catalogue of sources.
-- `L2_portal`: a portal, registry, or institutional access point.
-- `L3_dataset`: a specific dataset with a stable access path.
-- `L4_fragmented_source`: a useful source that requires extraction, reconciliation, or transformation.
+- `L1_portal`: a portal, catalogue, registry, or institutional access point.
+- `L2_dataset`: a specific dataset with a stable access path.
+- `L3_fragmented_source`: a useful source that requires extraction, reconciliation, or transformation.
 
-Level 3 records should receive the most detailed structured metadata when available. Level 4 records should document extraction method, legal risk, evidence, and limits with extra care.
+Level 2 dataset records should receive the most detailed structured metadata when available. Level 3 fragmented source records should document extraction method, legal risk, evidence, and limits with extra care.
 
 ### Standards-Compatible
 
