@@ -14,6 +14,7 @@ The framework uses CSV because it is easy to review in pull requests, easy to va
 | `wikidata_` | [Wikidata](https://www.wikidata.org/) | Entity identifiers, topics, related entities, and curated entity-property relationships. |
 | `github_` | [GitHub REST API](https://docs.github.com/en/rest) | Repository, user, organization, source code, maintainer, and reproducibility metadata. |
 | `hf_` | [Hugging Face Hub API](https://huggingface.co/docs/hub/api) | Hub repository, model, dataset, Space, discussion, license, task, and provenance metadata. |
+| `mcp_` | [Model Context Protocol](https://modelcontextprotocol.io/) | MCP server metadata, exposed tools/resources/prompts, transport, endpoint, authentication, and security notes. |
 | `sc_` | Source Commons | Framework extension terms used when existing standards do not cover operational reuse details. |
 
 ## CSV Files
@@ -136,6 +137,18 @@ Hugging Face metadata appears only in fields beginning with `hf_`.
 
 These fields can point to models, datasets, Spaces, discussions, or workflow dependencies. They should be filled from public Hugging Face Hub API responses or repository metadata. Contributors should still verify licenses, gated access, model cards, dataset cards, and redistribution limits before relying on a repository.
 
+## MCP Connections
+
+MCP fields document Model Context Protocol servers that help users or agents access, inspect, transform, or reuse sources, tools, and skills.
+
+MCP servers should usually be recorded in `data/tools.csv` with `tool_category` set to `MCP server`. A server should be added when it provides a concrete operational interface, not merely because a project mentions MCP.
+
+Use `mcp_server_id` for a stable identifier such as `MCP-DATAGOUV`. Use `mcp_transport` to describe how the server is accessed, for example `stdio`, `http`, or `sse`. Use `mcp_tools_exposed`, `mcp_resources_exposed`, and `mcp_prompts_exposed` to summarize what the server makes available.
+
+Skills may reference supporting MCP servers through the existing `mcp_servers` field. Use cases may reference MCP servers through `tools_used` when the server is part of the workflow.
+
+MCP records should include security notes when the server requires credentials, accesses private files, calls external APIs, or can trigger write actions.
+
 ## Required Fields
 
 Required fields are the minimum fields needed for a pull request to be reviewable. Operational details such as account requirements, authentication, rate limits, pricing, join keys, and legal notes are encouraged when known, but they are optional so public datasets can be submitted without unnecessary friction.
@@ -224,7 +237,7 @@ Required fields are the minimum fields needed for a pull request to be reviewabl
 | `tool_id` | Yes | Single | Identifier | Prefix `TOOL-` | `TOOL-FRICTIONLESS` | Stable Source Commons tool id. |
 | `dct_title` | Yes | Single | Text | Tool name | `Frictionless Framework` | Maps to Dublin Core title. |
 | `wikidata_id` | No | Single | Wikidata item | QID | `Q720467` | Primary Wikidata item for the tool or platform when one clear item exists. |
-| `tool_category` | Yes | Single or multiple select | Controlled value list | `AI repository metadata`, `Validation`, `Cleaning`, `Reconciliation`, `Extraction`, `Browser automation`, `Analytics`, `Publishing`, `Geocoding`, `Quality evaluation`, `Other` | `Validation` | Tool role in the framework. |
+| `tool_category` | Yes | Single or multiple select | Controlled value list | `AI repository metadata`, `Validation`, `Cleaning`, `Reconciliation`, `Extraction`, `Browser automation`, `Analytics`, `Publishing`, `Geocoding`, `Quality evaluation`, `MCP server`, `Other` | `Validation` | Tool role in the framework. |
 | `tool_homepage` | Yes | Single | URL | Official URL | `https://framework.frictionlessdata.io/` | Prefer official documentation or repository. |
 | `open_source_license` | Yes | Single | SPDX id, license name, access statement, or `Unknown` | License values | `MIT` | For closed or hosted tools, document access terms. |
 | `input_formats` | No | Multiple | Text list | Formats | `CSV; Excel; JSON` | Input formats the tool can process. |
@@ -247,6 +260,16 @@ Required fields are the minimum fields needed for a pull request to be reviewabl
 | `hf_license` | No | Single | SPDX id, Hub license tag, or `N/A` | License value | `apache-2.0` | Verify against the model or Space card. |
 | `hf_last_modified` | No | Single | ISO 8601 date time or date | Date time | `2026-05-30T14:32:00Z` | From Hub metadata when available. |
 | `hf_metadata_status` | No | Single select | Controlled value | Metadata status values | `Available` | Status of Hub metadata. |
+| `mcp_server_id` | No | Single | Identifier | Stable MCP server id | `MCP-DATAGOUV` | Stable identifier for the MCP server. |
+| `mcp_transport` | No | Single select | Controlled value | `stdio`, `http`, `sse`, `websocket`, `unknown` | `stdio` | How the MCP server is accessed. |
+| `mcp_endpoint_url` | No | Single | URL | Endpoint or command | `https://mcp.example.org/sse` | Connection endpoint for HTTP, SSE, or WebSocket transports. |
+| `mcp_auth_method` | No | Single select | Controlled value | `none`, `token`, `oauth`, `api_key`, `local_credentials`, `unknown` | `token` | Authentication the server requires. |
+| `mcp_tools_exposed` | No | Multiple | Text list | Tool names | `search_datasets; get_dataset` | Tools the server exposes. |
+| `mcp_resources_exposed` | No | Multiple | Text list | Resource names | `dataset; organization` | Resources the server exposes. |
+| `mcp_prompts_exposed` | No | Multiple | Text list | Prompt names | `summarize_dataset` | Prompts the server exposes. |
+| `mcp_installation` | No | Single | Text | Install or run instructions | `npx @example/datagouv-mcp` | How to install or run the server. |
+| `mcp_security_notes` | No | Single | Text | Security notes | `Requires API token; can trigger write actions.` | Notes on credentials, private access, external calls, or write actions. |
+| `mcp_status` | No | Single select | Controlled value | `experimental`, `usable`, `stable`, `deprecated`, `unknown` | `usable` | Maturity of the MCP server record. |
 
 ## `data/evaluations.csv`
 
