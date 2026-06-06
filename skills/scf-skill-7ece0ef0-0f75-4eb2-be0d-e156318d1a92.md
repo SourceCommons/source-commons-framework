@@ -22,11 +22,14 @@ license: CC-BY-4.0
 
 created: 2026-06-05
 
-updated: 2026-06-05
+updated: 2026-06-06
+
+datasets:
+  - SRC-NATURAL-RESOURCES-CANADA-RESSOURCES-NATURELLES-CANADA-NUMBER-OF-
 
 canonical_url: http://localhost:3003/skill/scf-skill-7ece0ef0-0f75-4eb2-be0d-e156318d1a92
 
 language: en
 ---
 
-test 5
+test 6
