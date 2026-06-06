@@ -32,4 +32,10 @@ canonical_url: http://localhost:3003/skill/scf-skill-7ece0ef0-0f75-4eb2-be0d-e15
 language: en
 ---
 
-test 6
+**test 7**
+
+```
+Test 7
+```
+
+# Test 7
