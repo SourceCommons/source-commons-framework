@@ -62,6 +62,22 @@ Every CSV can link to existing Source Commons items without a fixed limit. Use t
 
 Relationship fields are identifiers, not public contributor names. The website may also mirror these fields into a relational database so the catalogue can show connected records without reading every CSV cell.
 
+## Public Graph Export (Parquet)
+
+`scframework.org/open-data` publishes a downloadable Parquet snapshot of the public Source Commons graph. It is a normalized graph table rather than a second canonical copy of every provider catalogue. The export includes public Source Commons records and relations, public lists and list items, public spaces, public data models and fields, and public observed schema fields.
+
+External metadata remains with its provider. For records that reference an external dataset, portal, repository, or reuse, the Parquet file publishes stable SCF identifiers and the reference coordinates needed to follow the source, such as canonical URL, provider, provider record type, and metadata URL. It does not publish provider metadata caches as canonical Source Commons truth.
+
+Each published export contains:
+
+- `scf-public-graph-latest.parquet`, the current snapshot.
+- `scf-public-graph-YYYY-MM-DD.parquet`, a dated snapshot for reproducibility.
+- `scf-public-graph-manifest.json`, with generation time, schema version, license, row counts, included entity kinds, and columns.
+
+The export is generated in a Node/CI environment before deployment, not inside the Cloudflare Worker serving the website. Workers do not provide a persistent writable filesystem; generating the static files before deployment makes the Parquet and manifest available both locally and in production. For local verification, run `npm run export:public-parquet` from the `scframework.org` repository, then reload `/open-data`. Production runs the same command in the deployment workflow on every deploy and daily.
+
+The public export excludes private drafts, private lists and spaces, invitations, notifications, account credentials, authentication user IDs, tokens, sessions, raw analytics events, and other private operational data.
+
 ## Controlled Values
 
 These values are Source Commons controlled values unless a field notes an external standard.

@@ -31,6 +31,11 @@ It is designed for:
 - `documentation.md`: field-level documentation for each CSV.
 - `governance.md`: governance principles and review rules.
 
+The public website also publishes a normalized Parquet snapshot of the public
+framework graph. The operational export, schema, privacy boundary, and local
+verification command are documented in the **Public Graph Export (Parquet)**
+section of `documentation.md`.
+
 The CSV files are intentionally empty except for headers. Future pull requests can add proposed source records, tool records, evaluations, skills, and use cases.
 
 ## Standards Alignment
