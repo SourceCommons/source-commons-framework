@@ -64,12 +64,14 @@ Relationship fields are identifiers, not public contributor names. The website m
 
 ## Public Graph Export (Parquet)
 
-`scframework.org/open-data` publishes a downloadable Parquet snapshot of the public Source Commons graph. It is a normalized graph table rather than a second canonical copy of every provider catalogue. The export includes public Source Commons records and relations, public lists and list items, public spaces, public data models and fields, and public observed schema fields.
+`scframework.org/open-data` provides a public read-only JSON API first, at `GET https://scframework.org/api/open-data`, and a downloadable Parquet snapshot for analytical workflows. Both use the same normalized graph representation rather than creating a second canonical copy of every provider catalogue. They include public Source Commons records and relations, public lists and list items, public spaces, public data models and fields, and public observed schema fields.
 
 External metadata remains with its provider. For records that reference an external dataset, portal, repository, or reuse, the Parquet file publishes stable SCF identifiers and the reference coordinates needed to follow the source, such as canonical URL, provider, provider record type, and metadata URL. It does not publish provider metadata caches as canonical Source Commons truth.
 
 Each published export contains:
 
+- `GET /api/open-data`, the browser- and agent-friendly JSON representation.
+- `scf-public-graph-latest.json`, the current JSON snapshot behind the API.
 - `scf-public-graph-latest.parquet`, the current snapshot.
 - `scf-public-graph-YYYY-MM-DD.parquet`, a dated snapshot for reproducibility.
 - `scf-public-graph-manifest.json`, with generation time, schema version, license, row counts, included entity kinds, and columns.
